@@ -9,7 +9,7 @@ let initialState = [
   },
 ];
 
-const TextContext = createContext(null);
+const ChatContext = createContext(null);
 
 const chatReducer = (state, action) => {
   switch (action.type) {
@@ -47,10 +47,10 @@ export const DataProvider = ({ children }) => {
   };
 
   return (
-    <TextContext.Provider
+    <ChatContext.Provider
       value={{ chats, handleAdd, handleEdit, handleDelete }}
     >
       {children}
-    </TextContext.Provider>
+    </ChatContext.Provider>
   );
 };
