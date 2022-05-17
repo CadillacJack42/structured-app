@@ -11,6 +11,26 @@ let initialState = [
 
 const TextContext = createContext(null);
 
+const chatReducer = (state, action) => {
+  switch (action.type) {
+    case 'ADD':
+      return [action.payload.message, ...state];
+    case 'DELETE':
+      return state.filter((item) => item.id != action.payload.id);
+    case 'EDIT':
+      return state.map((currMessage) => {
+        if (currMessage.id === action.payload.message.id) {
+          const { message } = action.payload.message;
+          return { ...currMessage, message };
+        }
+        return currMessage;
+      });
+
+    default:
+      break;
+  }
+};
+
 export const DataProvider = ({ children }) => {
   const [chats, dispatch] = useReducer(chatReducer, initialState);
 
