@@ -8,6 +8,7 @@ export const AddMessage = () => {
     e.preventDefault();
     console.log(newMessage);
     setNewMessage('');
+    setAdding(false);
   };
 
   let content;
