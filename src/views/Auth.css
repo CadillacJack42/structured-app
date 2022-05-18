@@ -1,0 +1,22 @@
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+
+    button {
+        width: fit-content;
+        margin: 5px;
+    }
+
+    input {
+        width: 200px;
+        margin: 5px;
+    }
+
+    fieldset {
+        border: 5px solid black;
+        text-align: center;
+    }
+}
