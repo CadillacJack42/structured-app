@@ -9,7 +9,7 @@ let initialState = [
   },
 ];
 
-const ChatContext = createContext(null);
+export const ChatContext = createContext(null);
 
 const chatReducer = (state, action) => {
   switch (action.type) {
