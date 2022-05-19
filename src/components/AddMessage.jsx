@@ -1,16 +1,19 @@
 import { useState } from 'react';
+import { useData } from '../hooks/useData';
 import { addNewMessage } from '../services/fetch-utils';
 import { useUser } from '../hooks/useUser';
 import { add } from '../services/add';
 
 export const AddMessage = () => {
   const { user } = useUser();
+  const { handleReset } = useData();
   const [adding, setAdding] = useState(false);
   const [newMessage, setNewMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await add(newMessage, user.username);
+    const newState = await add(newMessage, user.username);
+    handleReset(newState);
     setNewMessage('');
     setAdding(false);
   };
