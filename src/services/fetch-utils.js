@@ -2,8 +2,6 @@ import { Redirect } from 'react-router-dom';
 import { client, checkError } from './client';
 import { useLoading } from '../hooks/useLoading';
 
-const { setLoading } = useLoading();
-
 export const getUser = () => {
   return client.auth.session() && client.auth.session().user;
 };
@@ -24,17 +22,22 @@ export const redirectIfLoggedIn = () => {
 
 export const creatProfile = async (username) => {
   const response = await client.from('profiles').insert({ username });
-  return checkError(response);
+  return checkError(response[0]);
 };
 
 export const signUp = async (email, password, username) => {
-  setLoading(true);
   const response = await client.auth.signUp({ email, password });
 
   if (response.user) {
-    await creatProfile(username);
+    const user = await creatProfile(username);
   } else {
     throw new Error(response.error);
   }
-  setLoading(false);
+  return user;
 };
+
+export async function signInUser(email, password) {
+  const response = await client.auth.signIn({ email, password });
+
+  return response.user;
+}

@@ -1,12 +1,31 @@
 import { useState } from 'react';
+import { signUp } from '../services/fetch-utils';
+import toast from 'react-hot-toast';
 import styles from './Auth.css';
+import { useLoading } from '../hooks/useLoading';
+import { useUser } from '../hooks/useUser';
 
 export const AuthForm = () => {
+  const { setLoading } = useLoading();
+  const { setUser } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
 
   const [hasAccount, setHasAccount] = useState(false);
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const user = await signUp(email, password, username);
+    setLoading(false);
+    setUser(user);
+    if (user) {
+      toast.success('Successfully Signed Up');
+    } else {
+      toast.error('Uh Oh! Something went wrong. Please Try Again');
+    }
+  };
 
   let form;
 
@@ -28,7 +47,7 @@ export const AuthForm = () => {
               placeholder="Password"
             />
             <span>
-              <button>Sign In</button>
+              <button onClick={null}>Sign In</button>
               <button onClick={() => setHasAccount(false)}>Not A User?</button>
             </span>
           </fieldset>
@@ -57,7 +76,7 @@ export const AuthForm = () => {
               placeholder="Password"
             />
             <span>
-              <button>Sign Up</button>
+              <button onClick={handleSignUp}>Sign Up</button>
               <button onClick={() => setHasAccount(true)}>
                 Already A User?
               </button>
