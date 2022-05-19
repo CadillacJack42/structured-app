@@ -1,12 +1,15 @@
 import { useState } from 'react';
+import { addNewMessage } from '../services/fetch-utils';
+import { useUser } from '../hooks/useUser';
 
 export const AddMessage = () => {
+  const { user } = useUser();
   const [adding, setAdding] = useState(false);
   const [newMessage, setNewMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(newMessage);
+    await addNewMessage(newMessage, user.username);
     setNewMessage('');
     setAdding(false);
   };

@@ -1,15 +1,14 @@
-import { useState } from 'react';
-import { signInUser, signUp } from '../services/fetch-utils';
-import toast from 'react-hot-toast';
 import styles from './Auth.css';
-import { useLoading } from '../hooks/useLoading';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useUser } from '../hooks/useUser';
+import { useLoading } from '../hooks/useLoading';
 import { useLocation, useHistory } from 'react-router-dom';
+import { signInUser, signUp } from '../services/fetch-utils';
 
 export const AuthForm = () => {
   const location = useLocation();
   const history = useHistory();
-  // console.log(location);
   const { setLoading } = useLoading();
   const { setUser } = useUser();
   const [email, setEmail] = useState('');

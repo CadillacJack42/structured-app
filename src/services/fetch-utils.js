@@ -20,7 +20,7 @@ export const redirectIfLoggedIn = () => {
   }
 };
 
-const getUserProfile = async (id) => {
+export const getUserProfile = async (id) => {
   const response = await client
     .from('profiles')
     .select()
@@ -48,9 +48,13 @@ export const signUp = async (email, password, username) => {
   return user;
 };
 
-export async function signInUser(email, password) {
+export const signInUser = async (email, password) => {
   const response = await client.auth.signIn({ email, password });
   const profile = await getUserProfile(response.user.id);
 
   return profile;
-}
+};
+
+export const addNewMessage = async (message, sender) => {
+  const response = await client.from('messages').insert({ message, sender });
+};
