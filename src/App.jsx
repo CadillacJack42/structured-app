@@ -1,12 +1,12 @@
-import { DataProvider } from './context/DataProvider';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { LoadingProvider } from './context/Loading';
+import { Chat } from './views/Chat';
+import { Header } from './views/Header';
 import { AuthForm } from './views/Auth';
 import { Toaster } from 'react-hot-toast';
-import { Header } from './views/Header';
-import { Chat } from './views/Chat';
+import { LoadingProvider } from './context/Loading';
+import { DataProvider } from './context/DataProvider';
 import { UserProvider } from './context/UserProvider';
 import { PrivateRoute } from './components/PrivateRoute';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 export default function App() {
   return (

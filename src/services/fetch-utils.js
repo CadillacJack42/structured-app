@@ -58,3 +58,9 @@ export const signInUser = async (email, password) => {
 export const addNewMessage = async (message, sender) => {
   const response = await client.from('messages').insert({ message, sender });
 };
+
+export const getPublicMessages = async () => {
+  const response = await client.from('messages').select();
+
+  return response.data;
+};

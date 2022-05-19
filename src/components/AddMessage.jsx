@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { addNewMessage } from '../services/fetch-utils';
 import { useUser } from '../hooks/useUser';
+import { add } from '../services/add';
 
 export const AddMessage = () => {
   const { user } = useUser();
@@ -9,7 +10,7 @@ export const AddMessage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await addNewMessage(newMessage, user.username);
+    await add(newMessage, user.username);
     setNewMessage('');
     setAdding(false);
   };

@@ -1,4 +1,4 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer, useState } from 'react';
 
 let initialState = [
   {
@@ -12,11 +12,14 @@ let initialState = [
 export const ChatContext = createContext(null);
 
 const chatReducer = (state, action) => {
+  console.log('PAYLOAD', action);
   switch (action.type) {
     case 'ADD':
       return [action.payload.message, ...state];
     case 'DELETE':
       return state.filter((item) => item.id != action.payload.id);
+    case 'RESET':
+      return action.payload.messages;
     case 'EDIT':
       return state.map((currMessage) => {
         if (currMessage.id === action.payload.message.id) {
@@ -32,7 +35,11 @@ const chatReducer = (state, action) => {
 };
 
 export const DataProvider = ({ children }) => {
-  const [chats, dispatch] = useReducer(chatReducer, initialState);
+  const [chats, dispatch] = useReducer(chatReducer);
+
+  const handleReset = (messages) => {
+    dispatch({ type: 'RESET', payload: { messages } });
+  };
 
   const handleAdd = (message) => {
     dispatch({ type: 'ADD', payload: { message } });
@@ -45,10 +52,11 @@ export const DataProvider = ({ children }) => {
   const handleDelete = (id) => {
     dispatch({ type: 'DELETE', payload: { id } });
   };
+  console.log('CHATPROVIDER', chats);
 
   return (
     <ChatContext.Provider
-      value={{ chats, handleAdd, handleEdit, handleDelete }}
+      value={{ chats, handleReset, handleAdd, handleEdit, handleDelete }}
     >
       {children}
     </ChatContext.Provider>
