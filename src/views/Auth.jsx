@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { signUp } from '../services/fetch-utils';
+import { signInUser, signUp } from '../services/fetch-utils';
 import toast from 'react-hot-toast';
 import styles from './Auth.css';
 import { useLoading } from '../hooks/useLoading';
@@ -16,14 +16,30 @@ export const AuthForm = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+
     setLoading(true);
+
     const user = await signUp(email, password, username);
+
     setLoading(false);
-    setUser(user);
+
     if (user) {
       toast.success('Successfully Signed Up');
+      setUser(user);
     } else {
       toast.error('Uh Oh! Something went wrong. Please Try Again');
+    }
+  };
+
+  const handleSignIn = async () => {
+    setLoading(true);
+    const userProfile = await signInUser();
+
+    if (userProfile) {
+      setUser(userProfile);
+      setLoading(false);
+    } else {
+      throw new Error(userProfile.error);
     }
   };
 

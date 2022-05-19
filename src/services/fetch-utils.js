@@ -20,6 +20,14 @@ export const redirectIfLoggedIn = () => {
   }
 };
 
+const getUserProfile = async (id) => {
+  const response = await client
+    .from('profiles')
+    .select()
+    .match({ user_id: id })
+    .single();
+};
+
 export const creatProfile = async (username, email) => {
   const response = await client.from('profiles').insert({ username, email });
   return checkError(response[0]);
@@ -38,6 +46,7 @@ export const signUp = async (email, password, username) => {
 
 export async function signInUser(email, password) {
   const response = await client.auth.signIn({ email, password });
+  const profile = await getUserProfile(response.user.id);
 
-  return response.user;
+  return profile;
 }
