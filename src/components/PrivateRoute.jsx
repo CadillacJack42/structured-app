@@ -1,18 +1,20 @@
 import { Redirect, Route } from 'react-router-dom';
-import { useAuth } from '../../hooks/user';
+import { useUser } from '../hooks/useUser';
+import { getUser } from '../services/fetch-utils';
 
-export default function PrivateRoute({ children, ...rest }) {
-  const { isLoggedIn } = useAuth();
+export const PrivateRoute = ({ children, ...rest }) => {
+  const user = getUser();
+
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        isLoggedIn ? (
+        user?.email ? (
           children
         ) : (
           <Redirect
             to={{
-              pathname: '/login',
+              pathname: '/auth',
               state: { from: location },
             }}
           />
@@ -20,4 +22,4 @@ export default function PrivateRoute({ children, ...rest }) {
       }
     />
   );
-}
+};

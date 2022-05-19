@@ -4,8 +4,12 @@ import toast from 'react-hot-toast';
 import styles from './Auth.css';
 import { useLoading } from '../hooks/useLoading';
 import { useUser } from '../hooks/useUser';
+import { useLocation, useHistory } from 'react-router-dom';
 
 export const AuthForm = () => {
+  const location = useLocation();
+  const history = useHistory();
+  // console.log(location);
   const { setLoading } = useLoading();
   const { setUser } = useUser();
   const [email, setEmail] = useState('');
@@ -26,18 +30,21 @@ export const AuthForm = () => {
     if (user) {
       toast.success('Successfully Signed Up');
       setUser(user);
+      history.push(location.state.from.pathname);
     } else {
       toast.error('Uh Oh! Something went wrong. Please Try Again');
     }
   };
 
-  const handleSignIn = async () => {
+  const handleSignIn = async (e) => {
+    e.preventDefault();
     setLoading(true);
-    const userProfile = await signInUser();
+    const userProfile = await signInUser(email, password);
+    setLoading(false);
 
     if (userProfile) {
       setUser(userProfile);
-      setLoading(false);
+      history.push(location.state.from.pathname);
     } else {
       throw new Error(userProfile.error);
     }
@@ -52,9 +59,9 @@ export const AuthForm = () => {
             <legend className={styles['auth-form-legend']}>Sign In</legend>
             <input
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Username"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
             />
             <input
               type="password"
@@ -63,7 +70,7 @@ export const AuthForm = () => {
               placeholder="Password"
             />
             <span>
-              <button onClick={null}>Sign In</button>
+              <button onClick={handleSignIn}>Sign In</button>
               <button onClick={() => setHasAccount(false)}>Not A User?</button>
             </span>
           </fieldset>
@@ -75,15 +82,15 @@ export const AuthForm = () => {
             <legend>Sign Up</legend>
             <input
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Username"
-            />
-            <input
-              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
+            />
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="username"
             />
             <input
               type="password"

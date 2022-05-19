@@ -7,6 +7,7 @@ export const client = createClient(
 
 export const checkError = ({ data, error }) => {
   if (error) throw error;
+  console.log('DATA', data);
 
   return data;
 };

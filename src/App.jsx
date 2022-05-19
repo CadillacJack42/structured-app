@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import { Header } from './views/Header';
 import { Chat } from './views/Chat';
 import { UserProvider } from './context/UserProvider';
+import { PrivateRoute } from './components/PrivateRoute';
 
 export default function App() {
   return (
@@ -19,9 +20,9 @@ export default function App() {
               <Route exact path="/auth">
                 <AuthForm />
               </Route>
-              <Route path="/messages">
+              <PrivateRoute path="/messages">
                 <Chat />
-              </Route>
+              </PrivateRoute>
               <Route exact path="/">
                 <Redirect to="/messages" />
               </Route>

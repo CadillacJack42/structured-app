@@ -10,7 +10,7 @@ export const checkAuth = () => {
   const user = getUser();
 
   if (!user) {
-    <Redirect to="/login" />;
+    <Redirect to="/auth" />;
   }
 };
 
@@ -26,18 +26,22 @@ const getUserProfile = async (id) => {
     .select()
     .match({ user_id: id })
     .single();
+
+  return response;
 };
 
-export const creatProfile = async (username, email) => {
-  const response = await client.from('profiles').insert({ username, email });
-  return checkError(response[0]);
+export const creatProfile = async (username, email, user_id) => {
+  const response = await client
+    .from('profiles')
+    .insert({ username, email, user_id });
+  return response.data[0];
 };
 
 export const signUp = async (email, password, username) => {
   const response = await client.auth.signUp({ email, password });
-
+  let user;
   if (response.user) {
-    const user = await creatProfile(username, email);
+    user = await creatProfile(username, email, response.user.id);
   } else {
     throw new Error(response.error);
   }
