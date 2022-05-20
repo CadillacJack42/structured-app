@@ -16,7 +16,6 @@ export const useData = () => {
     const getChats = async () => {
       try {
         const chatMessages = await getPublicMessages();
-        console.log('CHATMESSAGES', chatMessages);
         handleReset(chatMessages);
       } catch (err) {
         toast.error(err.message);

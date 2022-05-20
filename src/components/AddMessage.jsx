@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useData } from '../hooks/useData';
-import { addNewMessage } from '../services/fetch-utils';
 import { useUser } from '../hooks/useUser';
 import { add } from '../services/add';
 

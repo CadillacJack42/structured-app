@@ -1,18 +1,17 @@
 import { createContext, useReducer, useState } from 'react';
 
-let initialState = [
-  {
-    id: '12345678-1234-1234-a234',
-    timestamp: Date.now(),
-    sender: 'Cadillac Jack',
-    message: 'Check out this cool chat app!',
-  },
-];
+// let initialState = [
+//   {
+//     id: '12345678-1234-1234-a234',
+//     timestamp: Date.now(),
+//     sender: 'Cadillac Jack',
+//     message: 'Check out this cool chat app!',
+//   },
+// ];
 
 export const ChatContext = createContext(null);
 
 const chatReducer = (state, action) => {
-  console.log('PAYLOAD', action);
   switch (action.type) {
     case 'ADD':
       return [action.payload.message, ...state];
@@ -52,7 +51,6 @@ export const DataProvider = ({ children }) => {
   const handleDelete = (id) => {
     dispatch({ type: 'DELETE', payload: { id } });
   };
-  console.log('CHATPROVIDER', chats);
 
   return (
     <ChatContext.Provider

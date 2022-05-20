@@ -1,6 +1,7 @@
 import { Redirect } from 'react-router-dom';
 import { client, checkError } from './client';
 import { useLoading } from '../hooks/useLoading';
+import { useHistory } from 'react-router-dom';
 
 export const getUser = () => {
   return client.auth.session() && client.auth.session().user;
@@ -55,6 +56,12 @@ export const signInUser = async (email, password) => {
   return profile;
 };
 
+export async function logout() {
+  const history = useHistory();
+  await client.auth.signOut();
+  history.push('/');
+}
+
 export const addNewMessage = async (message, sender) => {
   const response = await client.from('messages').insert({ message, sender });
 };
@@ -63,4 +70,9 @@ export const getPublicMessages = async () => {
   const response = await client.from('messages').select();
 
   return response.data;
+};
+
+export const deleteMessage = async (id) => {
+  const response = await client.from('messages').delete().match({ id });
+  return response;
 };
