@@ -95,3 +95,12 @@ export const reply = async (reply, message_id, sender) => {
 
   return response;
 };
+
+export const fetchReplies = async (id) => {
+  const response = await client
+    .from('replies')
+    .select()
+    .match({ message_id: id });
+
+  return response;
+};
