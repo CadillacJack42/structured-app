@@ -2,6 +2,7 @@ import toast from 'react-hot-toast';
 import { useUser } from '../hooks/useUser';
 import { deleteMessage } from '../services/fetch-utils';
 import { useData } from '../hooks/useData';
+import { Link } from 'react-router-dom';
 
 export const Message = ({ message }) => {
   const { handleDelete } = useData();
@@ -28,12 +29,17 @@ export const Message = ({ message }) => {
 
   return (
     <div>
-      <span>{`${message.sender} said ${message.message}  `}</span>
+      <Link
+        to={{ pathname: `/messages/${message.id}` }}
+      >{`${message.sender} said ${message.message}  `}</Link>
       <span>{new Date(message.timestamp).toDateString()}</span>
       {myMessage ? (
-        <button onClick={() => handleDeleteMessage(message.id)}>
-          Delete message
-        </button>
+        <>
+          <button>Edit message</button>
+          <button onClick={() => handleDeleteMessage(message.id)}>
+            Delete message
+          </button>
+        </>
       ) : null}
     </div>
   );

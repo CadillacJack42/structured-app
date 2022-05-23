@@ -5,14 +5,14 @@ import { add } from '../services/add';
 
 export const AddMessage = () => {
   const { user } = useUser();
-  const { handleReset } = useData();
+  const { handleAdd } = useData();
   const [adding, setAdding] = useState(false);
   const [newMessage, setNewMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newState = await add(newMessage, user.username);
-    handleReset(newState);
+    handleAdd(newState);
     setNewMessage('');
     setAdding(false);
   };

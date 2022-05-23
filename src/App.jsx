@@ -7,6 +7,7 @@ import { DataProvider } from './context/DataProvider';
 import { UserProvider } from './context/UserProvider';
 import { PrivateRoute } from './components/PrivateRoute';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { Detail } from './views/Detail';
 
 export default function App() {
   return (
@@ -20,6 +21,9 @@ export default function App() {
               <Route exact path="/auth">
                 <AuthForm />
               </Route>
+              <PrivateRoute path="/messages/:id">
+                <Detail />
+              </PrivateRoute>
               <PrivateRoute path="/messages">
                 <Chat />
               </PrivateRoute>
