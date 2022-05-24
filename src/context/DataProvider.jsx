@@ -27,9 +27,9 @@ const chatReducer = (state, action) => {
         }
         return currMessage;
       });
-    case 'EDITSINGLE':
-      const newState = action.payload.reply;
-      return { ...newState };
+    case 'ADDREPLY':
+      const addNewReply = [...state.replies, action.payload.reply];
+      return { ...state, replies: addNewReply };
 
     default:
       break;
@@ -55,8 +55,8 @@ export const DataProvider = ({ children }) => {
     dispatch({ type: 'DELETE', payload: { id } });
   };
 
-  const handleEditSingle = (reply) => {
-    dispatch({ type: 'EDITSINGLE', payload: { reply } });
+  const handleAddReply = (reply) => {
+    dispatch({ type: 'ADDREPLY', payload: { reply } });
   };
 
   return (
@@ -67,7 +67,7 @@ export const DataProvider = ({ children }) => {
         handleAdd,
         handleEdit,
         handleDelete,
-        handleEditSingle,
+        handleAddReply,
       }}
     >
       {children}
