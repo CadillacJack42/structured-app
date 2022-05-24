@@ -5,18 +5,19 @@ import { useEffect, useState } from 'react';
 import { useLoading } from '../hooks/useLoading';
 import { addReply } from '../services/addReply';
 import { useUser } from '../hooks/useUser';
+import { Link } from 'react-router-dom';
 
 export const Detail = () => {
   const { user } = useUser();
   const [reply, setReply] = useState('');
   const { setLoading, loading } = useLoading();
-  const { handleReset, handleEditSingle, chats } = useData();
+  const { handleReset, handleAddReply, chats } = useData();
   const { id } = useParams();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     addReply(reply, id, user.username)
-      .then(({ data }) => handleReset(data[0]))
+      .then(({ data }) => handleAddReply(data[0]))
       .then(() => setReply(''));
   };
 
@@ -32,7 +33,14 @@ export const Detail = () => {
         <h1> Loading Deatil View</h1>
       ) : (
         <>
-          {console.log(chats)}
+          <Link
+            to={{
+              pathname: '/',
+              from: '/messages/:id',
+            }}
+          >
+            Back to All Messages
+          </Link>
           <h3>{chats?.sender}</h3>
           <p>{chats?.message}</p>
           {chats?.replies?.map((reply, index) => {
