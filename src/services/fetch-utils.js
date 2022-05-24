@@ -81,14 +81,13 @@ export const deleteMessage = async (id) => {
 export const fetchById = async (id) => {
   const response = await client
     .from('messages')
-    .select()
-    .match({ id })
-    .single();
+    .select('*, replies (*)')
+    .match({ id });
 
   return response.data;
 };
 
-export const reply = async (reply, message_id, sender) => {
+export const addNewReply = async (reply, message_id, sender) => {
   const response = await client
     .from('replies')
     .insert({ reply, message_id, sender });
