@@ -27,6 +27,9 @@ const chatReducer = (state, action) => {
         }
         return currMessage;
       });
+    case 'EDITSINGLE':
+      const newState = action.payload.reply;
+      return { ...newState };
 
     default:
       break;
@@ -52,9 +55,20 @@ export const DataProvider = ({ children }) => {
     dispatch({ type: 'DELETE', payload: { id } });
   };
 
+  const handleEditSingle = (reply) => {
+    dispatch({ type: 'EDITSINGLE', payload: { reply } });
+  };
+
   return (
     <ChatContext.Provider
-      value={{ chats, handleReset, handleAdd, handleEdit, handleDelete }}
+      value={{
+        chats,
+        handleReset,
+        handleAdd,
+        handleEdit,
+        handleDelete,
+        handleEditSingle,
+      }}
     >
       {children}
     </ChatContext.Provider>
