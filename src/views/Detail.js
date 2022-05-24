@@ -10,19 +10,19 @@ export const Detail = () => {
   const { user } = useUser();
   const [reply, setReply] = useState('');
   const { setLoading, loading } = useLoading();
-  const { handleReset, chats } = useData();
+  const { handleReset, handleEditSingle, chats } = useData();
   const { id } = useParams();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addReply(reply, id, user.username).then((data) => console.log(data));
+    addReply(reply, id, user.username)
+      .then(({ data }) => handleReset(data[0]))
+      .then(() => setReply(''));
   };
 
   useEffect(() => {
     setLoading(true);
-    fetchById(id)
-      //   .then((data) => console.log(data))
-      .then((chat) => handleReset(chat[0]));
+    fetchById(id).then((chat) => handleReset(chat[0]));
     setLoading(false);
   }, []);
 
